@@ -63,4 +63,4 @@ This second part is about being *a person businesses hire*. It scales worse, but
 
 Both paths are valid. Smart people do both. They run a small SaaS in the background while taking 1–2 freelance clients to keep the lights on. That's the actual playbook.
 
-Next chapter: the Shopify world, in real detail.
+Next chapter: the Shopify world, as a 6-week **Lehre** (apprenticeship). You'll pick a fake brand, build a real store with it, and finish with a portfolio you could show Christa.
