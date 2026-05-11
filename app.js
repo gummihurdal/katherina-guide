@@ -96,6 +96,8 @@ marked.setOptions({
     const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
     bar.style.width = Math.min(100, Math.max(0, scrolled)) + "%";
   }, { passive: true });
+
+  setupKeyboardShortcuts();
 })();
 
 function routeFromHash() {
@@ -117,7 +119,7 @@ function renderChapterNav() {
         </a>
       `).join("");
       return `
-        <div class="nav-section">
+        <div class="nav-section" data-section-id="${section.id}">
           ${showHeader ? `<div class="nav-section-title">${escapeHtml(section.title)}</div>` : ""}
           ${chapterLinks}
         </div>
@@ -150,7 +152,12 @@ async function loadChapter(idx) {
     a.classList.toggle("active", a.getAttribute("data-slug") === chapter.slug);
   });
 
-  // Set active state on sticky track tabs
+  // Highlight the current Lehre section in the sidebar
+  document.querySelectorAll(".nav-section").forEach((el) => {
+    el.classList.toggle("is-current", el.dataset.sectionId === chapter.sectionId);
+  });
+
+  // Set active state on sticky track tabs (mobile)
   document.querySelectorAll("#track-tabs .track-tab").forEach((t) => {
     t.classList.toggle("active", t.getAttribute("data-section") === chapter.sectionId);
   });
@@ -160,7 +167,6 @@ async function loadChapter(idx) {
   if (tocBtn) {
     const label = tocBtn.querySelector("span");
     if (label && chapter.sectionTitle) {
-      // Short label, e.g. "Lehre 1 · Chapters"
       const shortSection = chapter.sectionTitle.split("—")[0].trim();
       label.textContent = `${shortSection} · Chapters`;
     }
@@ -173,7 +179,6 @@ async function loadChapter(idx) {
     if (!res.ok) throw new Error(`Couldn't fetch ${chapter.file}`);
     const md = await res.text();
 
-    // Find chapter position within its section
     let positionInSection = "";
     if (manifest.sections && chapter.sectionId) {
       const section = manifest.sections.find(s => s.id === chapter.sectionId);
@@ -214,6 +219,9 @@ async function loadChapter(idx) {
     }
 
     contentEl.querySelectorAll("h2, h3").forEach((h) => { h.id = slugify(h.textContent); });
+
+    // Build in-page TOC with scroll-spy
+    buildInPageTOC();
   } catch (err) {
     contentEl.innerHTML = `<div class="loading">Couldn't load this chapter.</div>`;
     console.error(err);
@@ -223,6 +231,84 @@ async function loadChapter(idx) {
   updateEditLink(chapter);
   window.scrollTo({ top: document.getElementById("reader").offsetTop - 20, behavior: "smooth" });
   document.title = `${chapter.title} · Katherina's Guide`;
+}
+
+// ---------- In-page TOC + scroll-spy ----------
+let tocObserver = null;
+
+function buildInPageTOC() {
+  const tocEl = document.getElementById("in-page-toc");
+  if (!tocEl) return;
+
+  const headings = document.querySelectorAll(".content h2");
+  if (headings.length < 2) {
+    tocEl.innerHTML = "";
+    return;
+  }
+
+  const links = Array.from(headings).map(h => {
+    const id = h.id || slugify(h.textContent);
+    h.id = id;
+    return `<a href="#${id}" data-target="${id}">${escapeHtml(h.textContent)}</a>`;
+  }).join("");
+
+  tocEl.innerHTML = `<div class="toc-label">On this page</div>${links}`;
+
+  // Smooth scroll within page (don't trigger hash change router)
+  tocEl.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const id = a.getAttribute("data-target");
+      const target = document.getElementById(id);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
+        history.replaceState(null, "", `#${location.hash.replace(/^#/, "").split("#")[0] || allChapters[currentIndex].slug}`);
+      }
+    });
+  });
+
+  // Scroll-spy
+  if (tocObserver) tocObserver.disconnect();
+  tocObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll("#in-page-toc a").forEach(a => {
+          a.classList.toggle("active", a.getAttribute("data-target") === id);
+        });
+      }
+    });
+  }, { rootMargin: "-100px 0px -65% 0px", threshold: 0 });
+
+  headings.forEach(h => tocObserver.observe(h));
+}
+
+// ---------- Keyboard navigation ----------
+function setupKeyboardShortcuts() {
+  document.addEventListener("keydown", (e) => {
+    // Don't intercept typing or modifier combos
+    if (e.target.matches("input, textarea, select, [contenteditable]")) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+    if (e.key === "ArrowLeft") {
+      if (currentIndex > 0) {
+        location.hash = "#" + allChapters[currentIndex - 1].slug;
+        e.preventDefault();
+      }
+    } else if (e.key === "ArrowRight") {
+      if (currentIndex < allChapters.length - 1) {
+        location.hash = "#" + allChapters[currentIndex + 1].slug;
+        e.preventDefault();
+      }
+    } else if (["1", "2", "3"].includes(e.key) && manifest.sections) {
+      const sectionIdx = parseInt(e.key) - 1;
+      const section = manifest.sections[sectionIdx];
+      if (section && section.chapters.length) {
+        location.hash = "#" + section.chapters[0].slug;
+        e.preventDefault();
+      }
+    }
+  });
 }
 
 function updatePageNav(idx) {

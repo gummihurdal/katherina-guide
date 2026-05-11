@@ -15,7 +15,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-light.min.css" />
 
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧡</text></svg>" />
 </head>
@@ -107,12 +107,16 @@
   <main id="reader" class="reader">
     <aside class="sidebar">
       <div class="sidebar-sticky">
-        <div class="sidebar-label">Chapters</div>
+        <div class="sidebar-label">All chapters</div>
         <nav id="chapter-nav" class="chapter-nav" aria-label="Chapters">
           <!-- populated by JS -->
         </nav>
         <div class="sidebar-footer">
           <a href="#" id="github-edit" target="_blank" rel="noopener" class="edit-link">Edit this chapter on GitHub ↗</a>
+          <div class="kbd-hint">
+            <kbd>←</kbd> <kbd>→</kbd> to navigate chapters<br>
+            <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> to jump between Lehren
+          </div>
         </div>
       </div>
     </aside>
@@ -120,6 +124,10 @@
     <article id="content" class="content">
       <div class="loading">Loading the guide…</div>
     </article>
+
+    <aside class="in-page-toc" id="in-page-toc" aria-label="On this page">
+      <!-- populated by JS after chapter load -->
+    </aside>
   </main>
 
   <nav class="page-nav" id="page-nav" aria-label="Chapter navigation">
@@ -153,6 +161,6 @@
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
