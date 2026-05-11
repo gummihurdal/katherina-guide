@@ -1,0 +1,20 @@
+{
+  "title": "Build Things People Pay For",
+  "subtitle": "A field guide for Katherina",
+  "lastUpdated": "2026-05-11",
+  "chapters": [
+    { "slug": "welcome",       "title": "Welcome",                 "file": "00-welcome.md" },
+    { "slug": "foundations",   "title": "What a website actually is", "file": "01-foundations.md" },
+    { "slug": "first-website", "title": "Your first website",      "file": "02-first-website.md" },
+    { "slug": "prompting",     "title": "Prompting like a senior", "file": "03-prompting.md" },
+    { "slug": "design",        "title": "Making it look beautiful","file": "04-design.md" },
+    { "slug": "backend",       "title": "Adding a real backend",   "file": "05-backend.md" },
+    { "slug": "claude-code",   "title": "When to switch to Claude Code", "file": "06-claude-code.md" },
+    { "slug": "paid-features", "title": "Features people pay for", "file": "07-paid-features.md" },
+    { "slug": "shipping",      "title": "Shipping like a pro",     "file": "08-shipping.md" },
+    { "slug": "products",      "title": "Five things you can sell","file": "09-products-to-sell.md" },
+    { "slug": "selling",       "title": "Selling and getting paid","file": "10-selling.md" },
+    { "slug": "debugging",     "title": "When things break",       "file": "11-debugging.md" },
+    { "slug": "first-month",   "title": "Your first month",        "file": "12-first-month.md" }
+  ]
+}

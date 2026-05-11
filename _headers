@@ -1,0 +1,21 @@
+# Cloudflare Pages headers config
+# Markdown files: short cache so updates appear fast
+/content/*
+  Cache-Control: public, max-age=60, must-revalidate
+
+# Manifest: never cache so new chapters show immediately
+/content/manifest.json
+  Cache-Control: no-cache, must-revalidate
+
+# Static assets: cache long
+/style.css
+  Cache-Control: public, max-age=3600
+/app.js
+  Cache-Control: public, max-age=3600
+
+# Security headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
