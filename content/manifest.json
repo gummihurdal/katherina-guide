@@ -16,8 +16,12 @@
     { "slug": "selling",       "title": "Selling and getting paid","file": "10-selling.md" },
     { "slug": "debugging",     "title": "When things break",       "file": "11-debugging.md" },
     { "slug": "first-month",   "title": "Your first month",        "file": "12-first-month.md" },
-    { "slug": "d2c-path",      "title": "Level up — the D2C path", "file": "13-d2c-path.md" },
-    { "slug": "shopify",       "title": "Shopify mastery",         "file": "14-shopify.md" },
-    { "slug": "webflow-cro",   "title": "Webflow & CRO",           "file": "15-webflow-cro.md" }
+    { "slug": "d2c-path",         "title": "Level up — the D2C path",      "file": "13-d2c-path.md" },
+    { "slug": "meet-shopify",     "title": "Meet Shopify",                 "file": "14-meet-shopify.md" },
+    { "slug": "customize-theme",  "title": "Customize a theme — no code",  "file": "15-customize-theme.md" },
+    { "slug": "liquid-basics",    "title": "Your first lines of Liquid",   "file": "16-liquid-basics.md" },
+    { "slug": "shopify-pro",      "title": "Building Shopify like a pro",  "file": "17-shopify-pro.md" },
+    { "slug": "figma-to-shopify", "title": "Figma-to-Shopify",             "file": "18-figma-to-shopify.md" },
+    { "slug": "webflow-cro",      "title": "Webflow & CRO",                "file": "19-webflow-cro.md" }
   ]
 }
