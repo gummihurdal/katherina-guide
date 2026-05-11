@@ -15,7 +15,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-light.min.css" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3" />
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧡</text></svg>" />
 </head>
@@ -48,9 +48,24 @@
     </svg>
   </header>
 
+  <nav class="track-tabs" id="track-tabs" aria-label="Switch Master track">
+    <a href="#welcome" data-section="lehre-1" class="track-tab">
+      <span class="tab-num">01</span>
+      <span class="tab-label">Websites</span>
+    </a>
+    <a href="#d2c-path" data-section="lehre-2" class="track-tab">
+      <span class="tab-num">02</span>
+      <span class="tab-label">Shopify</span>
+    </a>
+    <a href="#marketing-path" data-section="lehre-3" class="track-tab">
+      <span class="tab-num">03</span>
+      <span class="tab-label">Marketing</span>
+    </a>
+  </nav>
+
   <section id="tracks" class="tracks" aria-label="Three Master tracks">
     <div class="tracks-inner">
-      <div class="tracks-label">Three Master tracks</div>
+      <div class="tracks-label">Three Master tracks · Pick where to start</div>
       <div class="tracks-grid">
         <a href="#welcome" class="track-card" data-track="1">
           <div class="track-num">01</div>
@@ -138,6 +153,6 @@
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

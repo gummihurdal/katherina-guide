@@ -150,6 +150,22 @@ async function loadChapter(idx) {
     a.classList.toggle("active", a.getAttribute("data-slug") === chapter.slug);
   });
 
+  // Set active state on sticky track tabs
+  document.querySelectorAll("#track-tabs .track-tab").forEach((t) => {
+    t.classList.toggle("active", t.getAttribute("data-section") === chapter.sectionId);
+  });
+
+  // Update mobile Chapters button to show current Lehre context
+  const tocBtn = document.getElementById("mobile-toc-btn");
+  if (tocBtn) {
+    const label = tocBtn.querySelector("span");
+    if (label && chapter.sectionTitle) {
+      // Short label, e.g. "Lehre 1 · Chapters"
+      const shortSection = chapter.sectionTitle.split("—")[0].trim();
+      label.textContent = `${shortSection} · Chapters`;
+    }
+  }
+
   contentEl.innerHTML = `<div class="loading">Loading "${escapeHtml(chapter.title)}"…</div>`;
 
   try {
@@ -157,8 +173,20 @@ async function loadChapter(idx) {
     if (!res.ok) throw new Error(`Couldn't fetch ${chapter.file}`);
     const md = await res.text();
 
+    // Find chapter position within its section
+    let positionInSection = "";
+    if (manifest.sections && chapter.sectionId) {
+      const section = manifest.sections.find(s => s.id === chapter.sectionId);
+      if (section) {
+        const posIdx = section.chapters.findIndex(c => c.slug === chapter.slug);
+        if (posIdx >= 0) {
+          positionInSection = ` <span class="bc-sep">·</span> <span class="bc-pos">Chapter ${posIdx + 1} of ${section.chapters.length}</span>`;
+        }
+      }
+    }
+
     const breadcrumb = chapter.sectionTitle
-      ? `<div class="section-breadcrumb">${escapeHtml(chapter.sectionTitle)}</div>`
+      ? `<div class="section-breadcrumb"><span>${escapeHtml(chapter.sectionTitle)}</span>${positionInSection}</div>`
       : "";
     contentEl.innerHTML = breadcrumb + marked.parse(md);
 
