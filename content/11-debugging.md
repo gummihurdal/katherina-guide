@@ -1,75 +1,189 @@
-# When things break
+# Werkzeugkasten — Debugging
 
-Things will break. They break for senior engineers too. The difference between a beginner and a senior isn't fewer bugs — it's the order in which you check things.
+A reference chapter, not a weekly Lehrling. Come back to it every time something breaks. Save this in your bookmarks.
 
-## The debugging checklist
+---
 
-When something is wrong, go in this exact order. Do not skip.
+## The Lehrling debugging mindset
 
-### 1. Read the error message *carefully*
+```mermaid
+flowchart TD
+  problem[Something broke] --> q1{Calm.<br/>Read the error.<br/>What does it<br/>literally say?}
+  q1 --> q2{Which of the<br/>three layers?}
+  q2 -->|Frontend| FE[Open browser DevTools<br/>Look at Console + Network]
+  q2 -->|Backend / DB| BE[Open Supabase Logs<br/>Check the table directly]
+  q2 -->|Hosting / DNS| HOST[Check Cloudflare<br/>Try incognito + different network]
+  FE --> fix[Form a hypothesis →<br/>change one thing →<br/>test]
+  BE --> fix
+  HOST --> fix
+  fix --> q3{Fixed?}
+  q3 -->|Yes| commit[Commit + write down<br/>what you learned]
+  q3 -->|No| q1
+```
 
-Most errors *literally tell you what's wrong* in the first line. People panic and don't read.
+The single most senior thing you can learn: **slow down and read the error literally.** 90% of bugs reveal themselves when you read the message in plain English instead of skimming.
 
-> *Cannot read property 'name' of undefined*
+---
 
-This is saying: *"You're trying to read `.name` from something that doesn't exist."* That's a complete diagnosis. Now you know where to look.
+## The 7-step debugging checklist
 
-### 2. Search the error message inside your project
+For every bug, walk through these in order. Most bugs are fixed by step 3.
 
-Press `Ctrl+F` (or `Cmd+F`) in your project. Paste the exact error. You'll almost always find the line of code that produced it.
+**1. Refresh.** Cold reload (`Cmd + Shift + R`). Sometimes the bug is a stale cache.
 
-### 3. Paste the error into Lovable
+**2. Try a different browser or incognito mode.** Confirms it's not local to your setup.
 
-> This error appeared. Here is what I did right before it: [describe]. Here is the full error message: [paste]. Find and fix it. Explain in plain English what was wrong.
+**3. Read the actual error.** Open DevTools (right-click → Inspect → Console). Read **every** error literally. Not skim — *read*.
 
-### 4. Switch to Claude Code if Lovable goes in circles
+**4. Search the exact error string.** Paste it into Google or Claude. Most errors have been hit by 10,000 people before you.
 
-If Lovable tries to fix the bug three times and makes it worse each time, **stop**. Push to GitHub, open the project locally, run `claude`, and ask:
+**5. Form a hypothesis.** Write it down in plain English: *"I think X is happening because Y."* Don't change anything yet.
 
-> I have a bug. Here's what's happening: [describe]. Here's the error: [paste]. Read the relevant files and reason about it. Don't change anything yet — first tell me what you think is wrong and why.
+**6. Change one thing, test.** Not three things. One. If it didn't fix the bug, undo before changing the next.
 
-Claude Code can see the whole codebase at once. It often spots things Lovable can't because Lovable only sees small pieces at a time.
+**7. Write down what fixed it.** Even if you didn't understand fully — a one-line note in a `bugs-fixed.md` file. Six months from now you'll hit the same bug again and your notes will save you an hour.
 
-### 5. Revert if you've made things worse
+---
 
-Lovable's revert button is your friend. If three prompts in a row have made things worse, **stop. Revert.** Then approach the problem differently. There's no shame in this. Senior engineers do it daily.
+## The "I'm stuck-stuck" universal prompt
 
-## Security things to never get wrong
+Paste this into Claude Code or Lovable when the easy steps haven't worked:
 
-If you ship to the internet, these are non-negotiable.
+```
+I'm stuck. Here's what's happening:
 
-- ✅ **Row Level Security** enabled on every Supabase table
-- ✅ **No API keys in your code** — always in environment variables (Lovable has a Secrets panel)
-- ✅ **Stripe webhook signature verification** turned on for any payment code
-- ✅ **No logging passwords, tokens, or full credit card numbers** — ever, in any environment
-- ✅ For anything serious, ask Claude Code:
+[paste the error or describe the bug in 1-3 sentences]
 
-> Audit this codebase for the most common web security mistakes: XSS, SQL injection, missing auth checks, exposed secrets, missing CSRF protection. List everything risky and rank by severity.
+What I've tried:
+1. [thing 1]
+2. [thing 2]
+3. [thing 3]
 
-Run that audit before any product you actually charge money for.
+What I expected to happen:
+[describe expected behaviour]
 
-## When you're stuck *stuck*
+What's actually happening:
+[describe actual behaviour]
 
-Two hours, no progress, frustration rising. Time to do the thing that always works:
+Don't write code yet. First, in plain English:
+1. What do you think is causing this?
+2. What additional info would help confirm?
+3. What's the cheapest experiment to test your theory?
+```
 
-> I've been stuck on [X] for over an hour. Here's what I've tried: [list]. Here are the error messages I've seen: [paste]. **What questions should I be asking that I'm not asking?**
+This prompt fixes bugs faster than just throwing the error at AI and saying "fix it." Because it forces both you and Claude to *think first.*
 
-That last sentence — *"what questions should I be asking that I'm not asking?"* — is the unlock. It works on Claude. It works on senior developers. It works on humans in general.
+---
 
-## The kindest thing you can do for future-you
+## Most-common bug patterns + fixes
 
-Write **README.md** files. Always. Even for your own personal projects. Especially for those.
+A table you'll refer to a hundred times.
 
-In every project, ask Lovable:
+| Bug pattern | Where | Most common cause | Fast fix |
+|---|---|---|---|
+| Page is blank, console error about a hook | Frontend | React hook order changed or component unmounted while async | Look at the line in the error; check for missing `useEffect` cleanup |
+| Data doesn't appear after add | Frontend or RLS | RLS policy not letting user read their own row | Check the Supabase policy `USING (auth.uid() = user_id)` |
+| Form submits, network shows 401 | Backend | User not logged in or token expired | Check Supabase Auth state before the API call |
+| Form submits, network shows 403 | Backend | RLS denying the action | Open Supabase → Auth → Policies; review the policy for the table |
+| Form submits, network shows 500 | Backend | Server-side function error | Open Supabase Logs (Edge Functions or Postgres Logs) |
+| `Failed to fetch` in browser | Frontend or hosting | API endpoint wrong or CORS issue | Compare URL in code vs URL in browser network tab |
+| Site works on laptop, broken on phone | Frontend | Mobile viewport or touch event | Open DevTools mobile preview, check for horizontal scroll or hover-only interactions |
+| Stripe webhook never fires | Hosting | Webhook URL wrong or no signature verification | Check Stripe Dashboard → Webhook attempts log |
+| Email never arrives | External | Domain not verified at Resend, or in spam | Check Resend dashboard logs |
+| Page loads slowly | Performance | Unoptimised images or render-blocking JS | Lighthouse → click each issue → fix one at a time |
 
-> Generate a README.md that explains: what this project does in one sentence, how to run it locally, what environment variables it needs, and any "gotchas" someone new should know.
+---
 
-Six months from now, when you reopen a project you'd forgotten, the README is the difference between *"oh yes, of course"* and *"what is this even."*
+## The security never-skip checklist
 
-## A final thought on breaking things
+Every time you ship a change that touches user data, run through this. Not optional.
 
-Every developer in the world breaks things. Senior developers just break them in private, fix them quickly, and don't tell anyone.
+- [ ] **RLS enabled** on every table that holds user data
+- [ ] **RLS policies use `auth.uid()`** to scope to current user (or `auth.uid() in (select user_id from team_members where team_id = ...)` for multi-tenant)
+- [ ] **No secrets in client code** — no API keys, no service-role keys, no admin tokens in anything that ships to the browser
+- [ ] **Server-side checks for auth** — never trust the client to say "I'm an admin"
+- [ ] **Sanitised user input** — if you accept rich text or HTML, use a library to strip dangerous tags
+- [ ] **Rate-limit AI calls** by user — otherwise one bad actor can drain your Anthropic credits
+- [ ] **HTTPS everywhere** — never send forms over HTTP
 
-You'll break production at some point. You'll feel terrible for a few hours. Then you'll add a check so it doesn't happen again, and you'll be a slightly better engineer for it. This is the actual job.
+If you skip this list once, you'll regret it. There's no second chance once user data has leaked.
 
-Bug-free isn't real. Quick-to-fix is real. Aim for that.
+---
+
+## How to log a bug for future-you
+
+Maintain a single file: `lehre-1/bugs-fixed.md`. Every meaningful bug gets a 3-line entry:
+
+```markdown
+## 2026-05-12 — Habit list showed empty after add
+- Cause: RLS policy on habit_completions didn't include INSERT for auth.uid()
+- Fix: added INSERT policy in Supabase
+- Lesson: when adding a table, always set policies for all 4 operations (SELECT/INSERT/UPDATE/DELETE)
+```
+
+Six months from now, search this file. You'll find your own answer to the same bug you forgot you fixed.
+
+---
+
+## When AI gets you stuck, not unstuck
+
+A real failure mode: you ask Claude to fix something, Claude makes it worse, you ask Claude to fix that, things spiral. After 4 rounds of this, **stop.**
+
+Recovery moves, in order:
+
+1. **`git checkout .`** — discard all uncommitted changes. Start fresh from your last working commit.
+2. **Read what Claude actually changed** before reverting — sometimes there's a useful idea buried in the mess.
+3. **Switch tools.** If Lovable spiralled, try Claude Code. If Claude Code spiralled, try doing it in Lovable. Different tools have different blind spots.
+4. **Ask a human.** Send your dad a Loom. He can usually spot what's wrong in 5 minutes from outside the spiral.
+
+---
+
+## The README habit
+
+Every project should have a `README.md` at the root that you maintain forever.
+
+Template:
+
+```markdown
+# Schritte
+
+A quiet habit tracker with a weekly AI coach.
+
+## Stack
+- Frontend: React + Vite + Tailwind, hosted on Lovable
+- Backend: Supabase (auth + Postgres + Edge Functions)
+- AI: Anthropic API (claude-sonnet-4-5)
+- Payments: Stripe (Pro subscription)
+- Emails: Resend
+- Analytics: Plausible
+
+## Important secrets (in Lovable + Supabase env vars)
+- STRIPE_SECRET_KEY
+- STRIPE_WEBHOOK_SECRET
+- ANTHROPIC_API_KEY
+- RESEND_API_KEY
+
+## How to run locally
+1. git clone
+2. npm install
+3. cp .env.example .env  (then fill in keys)
+4. npm run dev
+
+## Architecture decisions worth remembering
+- All data scoped by `user_id` via RLS, never by app code
+- AI weekly review cached for 7 days per user
+- Stripe webhooks at /api/stripe-webhook
+
+## Known issues
+- (none, but list them here as they appear)
+```
+
+Update this file every time you make a non-obvious decision. It's the gift your future self will thank you for.
+
+---
+
+## Lehrling Notiz
+
+The single difference between a junior dev and a senior dev isn't speed. It's *calm under bugs.* Juniors panic and try 5 things. Seniors read the error twice, form one hypothesis, test it, and most of the time fix the bug in 10 minutes flat.
+
+Calm comes from having debugged hundreds of bugs. There's no shortcut. But this chapter is the closest thing — it speeds up the first hundred. Read it. Bookmark it. Come back to it every time something breaks.

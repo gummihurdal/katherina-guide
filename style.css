@@ -222,6 +222,20 @@ a:hover { color: var(--ink); }
   flex-direction: column;
   gap: 0.1rem;
 }
+.nav-section { margin-bottom: 1.5rem; }
+.nav-section-title {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin: 0.75rem 0 0.5rem 0.85rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+}
+.nav-section:first-child .nav-section-title { border-top: 0; padding-top: 0; margin-top: 0; }
 .chapter-nav a {
   font-family: var(--sans);
   font-size: 0.92rem;
@@ -612,3 +626,60 @@ a:hover { color: var(--ink); }
 .content > *:nth-child(3) { animation-delay: .06s; }
 .content > *:nth-child(4) { animation-delay: .09s; }
 .content > *:nth-child(n+5) { animation-delay: .12s; }
+
+/* ============================================================
+   SECTION BREADCRUMB
+   ============================================================ */
+.section-breadcrumb {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-breadcrumb::before {
+  content: "";
+  display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--accent-deep);
+}
+
+/* ============================================================
+   MERMAID DIAGRAMS
+   ============================================================ */
+.mermaid-wrapper {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  overflow-x: auto;
+}
+.mermaid-wrapper svg {
+  max-width: 100%;
+  height: auto;
+}
+.mermaid-wrapper .node rect,
+.mermaid-wrapper .node circle,
+.mermaid-wrapper .node ellipse,
+.mermaid-wrapper .node polygon {
+  fill: var(--bg-tinted) !important;
+  stroke: var(--ink) !important;
+  stroke-width: 1.5px !important;
+}
+.mermaid-wrapper .edgePath path {
+  stroke: var(--ink) !important;
+  stroke-width: 1.5px !important;
+}
+.mermaid-wrapper .edgeLabel {
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+}

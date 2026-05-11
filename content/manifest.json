@@ -1,27 +1,52 @@
 {
   "title": "Build Things People Pay For",
-  "subtitle": "A field guide for Katherina",
+  "subtitle": "Three Master tracks for Katherina",
   "lastUpdated": "2026-05-11",
-  "chapters": [
-    { "slug": "welcome",       "title": "Welcome",                 "file": "00-welcome.md" },
-    { "slug": "foundations",   "title": "What a website actually is", "file": "01-foundations.md" },
-    { "slug": "first-website", "title": "Your first website",      "file": "02-first-website.md" },
-    { "slug": "prompting",     "title": "Prompting like a senior", "file": "03-prompting.md" },
-    { "slug": "design",        "title": "Making it look beautiful","file": "04-design.md" },
-    { "slug": "backend",       "title": "Adding a real backend",   "file": "05-backend.md" },
-    { "slug": "claude-code",   "title": "When to switch to Claude Code", "file": "06-claude-code.md" },
-    { "slug": "paid-features", "title": "Features people pay for", "file": "07-paid-features.md" },
-    { "slug": "shipping",      "title": "Shipping like a pro",     "file": "08-shipping.md" },
-    { "slug": "products",      "title": "Five things you can sell","file": "09-products-to-sell.md" },
-    { "slug": "selling",       "title": "Selling and getting paid","file": "10-selling.md" },
-    { "slug": "debugging",     "title": "When things break",       "file": "11-debugging.md" },
-    { "slug": "first-month",   "title": "Your first month",        "file": "12-first-month.md" },
-    { "slug": "d2c-path",         "title": "Level up — the D2C path",         "file": "13-d2c-path.md" },
-    { "slug": "meet-shopify",     "title": "Woche 1 — Meet Shopify",           "file": "14-meet-shopify.md" },
-    { "slug": "customize-theme",  "title": "Woche 2 — Customize, no code",     "file": "15-customize-theme.md" },
-    { "slug": "liquid-basics",    "title": "Woche 3 — Open the code",          "file": "16-liquid-basics.md" },
-    { "slug": "shopify-pro",      "title": "Woche 4 — Build like a pro",       "file": "17-shopify-pro.md" },
-    { "slug": "figma-to-shopify", "title": "Woche 5 — Figma to Shopify",       "file": "18-figma-to-shopify.md" },
-    { "slug": "webflow-cro",      "title": "Woche 6 — Webflow & CRO",          "file": "19-webflow-cro.md" }
+  "sections": [
+    {
+      "id": "lehre-1",
+      "title": "Lehre 1 — Master Websites",
+      "chapters": [
+        { "slug": "welcome",       "title": "Welcome",                       "file": "00-welcome.md" },
+        { "slug": "foundations",   "title": "What a website really is",      "file": "01-foundations.md" },
+        { "slug": "first-website", "title": "Woche 1 — Your first project",  "file": "02-first-website.md" },
+        { "slug": "prompting",     "title": "Woche 2 — Prompting like a senior", "file": "03-prompting.md" },
+        { "slug": "design",        "title": "Woche 3 — Design like a designer",  "file": "04-design.md" },
+        { "slug": "backend",       "title": "Woche 4 — Accounts & database", "file": "05-backend.md" },
+        { "slug": "claude-code",   "title": "Woche 5 — Claude Code for the hard 20%", "file": "06-claude-code.md" },
+        { "slug": "paid-features", "title": "Woche 6 — Features people pay for", "file": "07-paid-features.md" },
+        { "slug": "shipping",      "title": "Woche 7 — Live gehen",          "file": "08-shipping.md" },
+        { "slug": "products",      "title": "Werkzeugkasten — Sellable patterns", "file": "09-products-to-sell.md" },
+        { "slug": "selling",       "title": "Verkaufen — First customers",   "file": "10-selling.md" },
+        { "slug": "debugging",     "title": "Werkzeugkasten — Debugging",    "file": "11-debugging.md" },
+        { "slug": "first-month",   "title": "Gesellenprüfung — Your first month", "file": "12-first-month.md" }
+      ]
+    },
+    {
+      "id": "lehre-2",
+      "title": "Lehre 2 — Master Shopify",
+      "chapters": [
+        { "slug": "d2c-path",         "title": "Level up — the D2C path",       "file": "13-d2c-path.md" },
+        { "slug": "meet-shopify",     "title": "Woche 1 — Meet Shopify",        "file": "14-meet-shopify.md" },
+        { "slug": "customize-theme",  "title": "Woche 2 — Customize, no code",  "file": "15-customize-theme.md" },
+        { "slug": "liquid-basics",    "title": "Woche 3 — Open the code",       "file": "16-liquid-basics.md" },
+        { "slug": "shopify-pro",      "title": "Woche 4 — Build like a pro",    "file": "17-shopify-pro.md" },
+        { "slug": "figma-to-shopify", "title": "Woche 5 — Figma to Shopify",    "file": "18-figma-to-shopify.md" },
+        { "slug": "webflow-cro",      "title": "Woche 6 — Webflow & CRO",       "file": "19-webflow-cro.md" }
+      ]
+    },
+    {
+      "id": "lehre-3",
+      "title": "Lehre 3 — Master Marketing",
+      "chapters": [
+        { "slug": "marketing-path",     "title": "Why marketing closes the loop", "file": "20-marketing-path.md" },
+        { "slug": "understand-customer","title": "Woche 1 — Understand the customer", "file": "21-understand-customer.md" },
+        { "slug": "seo",                "title": "Woche 2 — SEO that works",      "file": "22-seo.md" },
+        { "slug": "paid-ads",           "title": "Woche 3 — Paid ads",            "file": "23-paid-ads.md" },
+        { "slug": "email",              "title": "Woche 4 — Email automation",    "file": "24-email.md" },
+        { "slug": "deep-cro",           "title": "Woche 5 — Deep CRO",            "file": "25-deep-cro.md" },
+        { "slug": "growth-audit",       "title": "Woche 6 — Gesellenprüfung: real growth audit", "file": "26-growth-audit.md" }
+      ]
+    }
   ]
 }
