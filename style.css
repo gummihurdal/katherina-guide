@@ -628,6 +628,138 @@ a:hover { color: var(--ink); }
 .content > *:nth-child(n+5) { animation-delay: .12s; }
 
 /* ============================================================
+   THREE MASTER TRACKS SELECTOR
+   ============================================================ */
+.tracks {
+  background: var(--bg);
+  padding: clamp(2rem, 5vw, 4rem) var(--pad-x) clamp(2rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--rule);
+}
+.tracks-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.tracks-label {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.tracks-label::before {
+  content: "";
+  display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--accent-deep);
+}
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.track-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.75rem 1.5rem 1.5rem;
+  background: var(--bg-tinted);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+  cursor: pointer;
+  min-height: 240px;
+  overflow: hidden;
+}
+.track-card:hover,
+.track-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-soft);
+  background: var(--bg);
+  outline: none;
+}
+.track-card[data-track="1"]:hover { background: linear-gradient(180deg, var(--bg) 0%, var(--accent-soft) 100%); }
+.track-card[data-track="2"]:hover { background: linear-gradient(180deg, var(--bg) 0%, #E8E0D3 100%); }
+.track-card[data-track="3"]:hover { background: linear-gradient(180deg, var(--bg) 0%, #F1ECDF 100%); }
+
+.track-num {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+.track-name {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.5vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.track-name em {
+  font-style: italic;
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+.track-desc {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+  flex: 1;
+}
+.track-meta {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.track-meta .sep {
+  opacity: 0.5;
+}
+.track-arrow {
+  position: absolute;
+  top: 1.75rem;
+  right: 1.5rem;
+  font-size: 1.25rem;
+  color: var(--ink-mute);
+  transition: transform .25s ease, color .2s ease;
+  font-family: var(--sans);
+}
+.track-card:hover .track-arrow,
+.track-card:focus-visible .track-arrow {
+  transform: translateX(4px);
+  color: var(--accent-deep);
+}
+
+@media (max-width: 900px) {
+  .tracks-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .track-card {
+    min-height: auto;
+    padding: 1.5rem 1.25rem 1.35rem;
+  }
+  .track-arrow {
+    top: 1.5rem;
+    right: 1.25rem;
+  }
+}
+
+/* ============================================================
    SECTION BREADCRUMB
    ============================================================ */
 .section-breadcrumb {

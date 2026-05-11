@@ -33,7 +33,7 @@
         Lovable + Claude. Beginner to professional. In your own time, in your own way.
       </p>
       <div class="hero-actions">
-        <button class="btn-primary" onclick="document.getElementById('reader').scrollIntoView({behavior:'smooth'})">Start reading</button>
+        <button class="btn-primary" onclick="document.getElementById('tracks').scrollIntoView({behavior:'smooth'})">Start reading</button>
         <a class="btn-ghost" id="repo-link" href="#" target="_blank" rel="noopener">View on GitHub →</a>
       </div>
       <div class="hero-meta">
@@ -47,6 +47,47 @@
       <path d="M5,40 Q40,5 75,40 T145,40 T195,40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
     </svg>
   </header>
+
+  <section id="tracks" class="tracks" aria-label="Three Master tracks">
+    <div class="tracks-inner">
+      <div class="tracks-label">Three Master tracks</div>
+      <div class="tracks-grid">
+        <a href="#welcome" class="track-card" data-track="1">
+          <div class="track-num">01</div>
+          <div class="track-name">Master <em>Websites</em></div>
+          <p class="track-desc">From "I've never built anything" to a deployed, paid SaaS. Lovable + Claude + Supabase + Stripe.</p>
+          <div class="track-meta">
+            <span>13 chapters</span>
+            <span class="sep">·</span>
+            <span>8 weeks</span>
+          </div>
+          <span class="track-arrow">→</span>
+        </a>
+        <a href="#d2c-path" class="track-card" data-track="2">
+          <div class="track-num">02</div>
+          <div class="track-name">Master <em>Shopify</em></div>
+          <p class="track-desc">The Christa.dev path. Figma-to-Shopify, custom sections, Webflow brand sites, CRO.</p>
+          <div class="track-meta">
+            <span>7 chapters</span>
+            <span class="sep">·</span>
+            <span>6 weeks</span>
+          </div>
+          <span class="track-arrow">→</span>
+        </a>
+        <a href="#marketing-path" class="track-card" data-track="3">
+          <div class="track-num">03</div>
+          <div class="track-name">Master <em>Marketing</em></div>
+          <p class="track-desc">The other half of every D2C business. SEO, paid ads, email automation, deep CRO.</p>
+          <div class="track-meta">
+            <span>7 chapters</span>
+            <span class="sep">·</span>
+            <span>6 weeks</span>
+          </div>
+          <span class="track-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <main id="reader" class="reader">
     <aside class="sidebar">
